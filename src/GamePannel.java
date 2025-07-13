@@ -30,7 +30,7 @@ public class GamePannel extends JPanel implements ActionListener {
         this.setBackground(Color.BLACK);
 //        this.setVisible(true);
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
-        this.addKeyListener(new MyKeyAdapter());
+//        this.addKeyListener(new MyKeyAdapter());
         this.addMouseMotionListener(new MyMouseAdapter());
         start();
     }
@@ -151,6 +151,10 @@ public class GamePannel extends JPanel implements ActionListener {
     public int getBumper_Y(){
         return my_Bumper_Y;
     }
+    public void setEnemy_Bumper_Y(int y){
+//        System.out.println("Working good in GamePanel!");
+        enemy_Bumper_Y = y;
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         if(running){
@@ -159,26 +163,26 @@ public class GamePannel extends JPanel implements ActionListener {
         repaint();
     }
 
-    public class MyKeyAdapter extends KeyAdapter {
-        @Override
-        public void keyPressed(KeyEvent e){
-
-            switch(e.getKeyCode()){
-                case KeyEvent.VK_UP:
-                    if(enemy_Bumper_Y >= 25){
-                        enemy_Bumper_Y -= 25;
-                    }
-                    break;
-                case KeyEvent.VK_DOWN:
-                    if(enemy_Bumper_Y <= SCREEN_HEIGHT - BUMPER_HEIGHT - 25){
-                        enemy_Bumper_Y += 25;
-                    }
-                    break;
-            }
-//            repaint();
-
-        }
-    }
+//    public class MyKeyAdapter extends KeyAdapter {
+//        @Override
+//        public void keyPressed(KeyEvent e){
+//
+//            switch(e.getKeyCode()){
+//                case KeyEvent.VK_UP:
+//                    if(enemy_Bumper_Y >= 25){
+//                        enemy_Bumper_Y -= 25;
+//                    }
+//                    break;
+//                case KeyEvent.VK_DOWN:
+//                    if(enemy_Bumper_Y <= SCREEN_HEIGHT - BUMPER_HEIGHT - 25){
+//                        enemy_Bumper_Y += 25;
+//                    }
+//                    break;
+//            }
+////            repaint();
+//
+//        }
+//    }
     public class MyMouseAdapter extends MouseAdapter {
         @Override
         public void mouseMoved(MouseEvent e){

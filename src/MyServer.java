@@ -4,12 +4,12 @@ import java.util.concurrent.Executors;
 
 public class MyServer {
     public static void start(final int portNumber) throws IOException {
-        GameFrame gameFrame = new GameFrame();
         try (ServerSocket serverSocket = new ServerSocket(portNumber)){
             try(var executor = Executors.newVirtualThreadPerTaskExecutor()) {
                 while (true) {
                     Socket client = serverSocket.accept();
                     executor.submit(() -> {
+                        GameFrame gameFrame = new GameFrame();
                         System.out.println("Client connected!");
                         var clientIp = client.getInetAddress().getHostAddress();
                         var clientPort = client.getPort();
@@ -22,8 +22,10 @@ public class MyServer {
 //                            }
                             String inputLine;
                             while ((inputLine = clientInput.readLine()) != null) {
-                                System.out.println(clientIp + ":" + clientPort + "): " + inputLine);
-                                output.println("Heres my y: " + gameFrame.getBumperY());
+//                                System.out.println(inputLine);
+                                inputLine = inputLine.replaceAll("\\s+", "");
+                                gameFrame.setEnemyBumperY(Integer.parseInt(inputLine));
+                                output.println(gameFrame.getBumperY());
                             }
 
                         }

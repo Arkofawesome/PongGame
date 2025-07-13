@@ -2,8 +2,10 @@ import javax.swing.*;
 
 public class GameFrame extends JFrame {
     GamePannel gamePannel = new GamePannel();
-    int bumperY;
+    int myBumperY;
+    int enemyBumperY;
     GameFrame(){
+
         this.add(gamePannel);
         this.setTitle("Pong");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -12,8 +14,13 @@ public class GameFrame extends JFrame {
         this.setVisible(true);
         this.setLocationRelativeTo(null);
     }
+    public void setEnemyBumperY(int y){
+//        System.out.println("Working good in GameFrame!");
+        gamePannel.setEnemy_Bumper_Y(enemyBumperY);
+        enemyBumperY = y;
+    }
     public int getBumperY(){
-        bumperY = gamePannel.getBumper_Y();
-        return bumperY;
+        myBumperY = gamePannel.getBumper_Y();
+        return myBumperY;
     }
 }
