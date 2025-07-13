@@ -70,6 +70,9 @@ public class GamePannel extends JPanel implements ActionListener {
             case 4:
                 direction = "BR";
                 break;
+            default:
+                direction = "UL";
+                break;
         }
 
     }
@@ -145,6 +148,9 @@ public class GamePannel extends JPanel implements ActionListener {
         }
 
     }
+    public int getBumper_Y(){
+        return my_Bumper_Y;
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         if(running){
@@ -178,8 +184,8 @@ public class GamePannel extends JPanel implements ActionListener {
         public void mouseMoved(MouseEvent e){
             if(e.getY() > 0 && e.getY() <= SCREEN_HEIGHT - BUMPER_HEIGHT){
                 my_Bumper_Y = e.getY();
-                System.out.println(e.getY());
-//                repaint();
+//                System.out.println(e.getY());
+//                repaint();F
             }
         }
     }
