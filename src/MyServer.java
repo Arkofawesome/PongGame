@@ -10,6 +10,7 @@ public class MyServer {
                     Socket client = serverSocket.accept();
                     executor.submit(() -> {
                         GameFrame gameFrame = new GameFrame();
+                        gameFrame.setServer(true);
                         System.out.println("Client connected!");
                         var clientIp = client.getInetAddress().getHostAddress();
                         var clientPort = client.getPort();
@@ -23,9 +24,14 @@ public class MyServer {
                             String inputLine;
                             while ((inputLine = clientInput.readLine()) != null) {
 //                                System.out.println(inputLine);
-                                inputLine = inputLine.replaceAll("\\s+", "");
+//                                inputLine = inputLine.replaceAll("\\s+", "");
                                 gameFrame.setEnemyBumperY(Integer.parseInt(inputLine));
-                                output.println(gameFrame.getBumperY());
+                                int reflectionX = 300 - gameFrame.getBallX();
+                                if(reflectionX >= 0)
+                                    reflectionX = gameFrame.getBallX() + 2*reflectionX;
+                                else
+                                    reflectionX = gameFrame.getBallX() - -2*reflectionX;
+                                output.println(gameFrame.getBumperY() + "_" + reflectionX + "_" + gameFrame.getBallY() + "_" + gameFrame.getDirection());
                             }
 
                         }

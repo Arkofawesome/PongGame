@@ -23,6 +23,8 @@ public class GamePannel extends JPanel implements ActionListener {
     Timer timer;
     Random random;
 
+    boolean isServer;
+
 
     GamePannel(){
         random = new Random();
@@ -33,6 +35,10 @@ public class GamePannel extends JPanel implements ActionListener {
 //        this.addKeyListener(new MyKeyAdapter());
         this.addMouseMotionListener(new MyMouseAdapter());
         start();
+    }
+
+    public void setServer(boolean set){
+        isServer = set;
     }
     public void start(){
         randomStart();
@@ -54,66 +60,94 @@ public class GamePannel extends JPanel implements ActionListener {
         g.drawString("" + right_Score, SCREEN_WIDTH/4 * 3 - 25 , 50);
         g.fillRect(ball_X, ball_Y, BALL_WIDTH, BALL_HEIGHT);//Ball rect
     }
+    public String getDir(){
+        return direction;
+    }
+    public int getBall_X(){
+        return ball_X;
+    }
+    public int getBall_Y(){
+        return ball_Y;
+    }
+    public void setDir(String direction){
+        this.direction = direction;
+    }
+    public void setBall_X(int ball_X){
+        this.ball_X = ball_X;
+    }
+    public void setBall_Y(int ball_Y){
+        this.ball_Y = ball_Y;
+    }
     public void randomStart(){
-        ball_X = SCREEN_WIDTH/2 - BALL_WIDTH/2;
-        ball_Y = random.nextInt(SCREEN_HEIGHT - BALL_HEIGHT);
-        switch(random.nextInt(4)){
-            case 1:
-                direction = "UL";
-                break;
-            case 2:
-                direction = "BL";
-                break;
-            case 3:
-                direction = "UR";
-                break;
-            case 4:
-                direction = "BR";
-                break;
-            default:
-                direction = "UL";
-                break;
+        if(isServer){
+            ball_X = SCREEN_WIDTH/2 - BALL_WIDTH/2;
+            ball_Y = random.nextInt(SCREEN_HEIGHT - BALL_HEIGHT);
+            switch(random.nextInt(4)){
+                case 1:
+                    direction = "UL";
+                    break;
+                case 2:
+                    direction = "BL";
+                    break;
+                case 3:
+                    direction = "UR";
+                    break;
+                case 4:
+                    direction = "BR";
+                    break;
+                default:
+                    direction = "UL";
+                    break;
+            }
         }
+        else{
+
+        }
+
 
     }
     public void moveBall(){
-        if(ball_X <= 0){//off the left side screen
-            right_Score++;
-            randomStart();
-        }
-        else if (ball_X >= SCREEN_WIDTH - BALL_WIDTH){//off the left side screen
-            left_Score++;
-            randomStart();;
-        }
-        else {//in play
-            if(ball_Y < 0 || ball_Y + BALL_HEIGHT > SCREEN_WIDTH) {// If the ball is colliding
-                wallCollision();
+        if(isServer){
+            if(ball_X <= 0){//off the left side screen
+                right_Score++;
+                randomStart();
             }
-            //Basically if the ball touched a bumper
-            else if(new Rectangle(0,my_Bumper_Y, BUMPER_WIDTH,BUMPER_HEIGHT).intersects(ball_X,ball_Y,BALL_WIDTH,BALL_HEIGHT)
-                    || new Rectangle(SCREEN_WIDTH - BUMPER_WIDTH,enemy_Bumper_Y, BUMPER_WIDTH,BUMPER_HEIGHT).intersects(ball_X,ball_Y,BALL_WIDTH,BALL_HEIGHT)){
-                bumperCollision();
+            else if (ball_X >= SCREEN_WIDTH - BALL_WIDTH){//off the left side screen
+                left_Score++;
+                randomStart();;
             }
-            //Move codec
-            switch(direction){
-                case("UL"):
-                    ball_X -= 8;
-                    ball_Y -= 8;
-                    break;
-                case("BL"):
-                    ball_X -= 8;
-                    ball_Y += 8;
-                    break;
-                case("UR"):
-                    ball_X += 8;
-                    ball_Y -= 8;
-                    break;
-                case("BR"):
-                    ball_X += 8;
-                    ball_Y += 8;
-                    break;
+            else {//in play
+                if(ball_Y < 0 || ball_Y + BALL_HEIGHT > SCREEN_WIDTH) {// If the ball is colliding
+                    wallCollision();
+                }
+                //Basically if the ball touched a bumper
+                else if(new Rectangle(0,my_Bumper_Y, BUMPER_WIDTH,BUMPER_HEIGHT).intersects(ball_X,ball_Y,BALL_WIDTH,BALL_HEIGHT)
+                        || new Rectangle(SCREEN_WIDTH - BUMPER_WIDTH,enemy_Bumper_Y, BUMPER_WIDTH,BUMPER_HEIGHT).intersects(ball_X,ball_Y,BALL_WIDTH,BALL_HEIGHT)){
+                    bumperCollision();
+                }
+                //Move codec
+                switch(direction){
+                    case("UL"):
+                        ball_X -= 8;
+                        ball_Y -= 8;
+                        break;
+                    case("BL"):
+                        ball_X -= 8;
+                        ball_Y += 8;
+                        break;
+                    case("UR"):
+                        ball_X += 8;
+                        ball_Y -= 8;
+                        break;
+                    case("BR"):
+                        ball_X += 8;
+                        ball_Y += 8;
+                        break;
+                }
             }
         }
+
+
     }
     public void bumperCollision(){
         switch(direction){
