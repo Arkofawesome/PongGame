@@ -31,7 +31,8 @@ public class MyServer {
                                     reflectionX = gameFrame.getBallX() + 2*reflectionX;
                                 else
                                     reflectionX = gameFrame.getBallX() - -2*reflectionX;
-                                output.println(gameFrame.getBumperY() + "_" + reflectionX + "_" + gameFrame.getBallY() + "_" + gameFrame.getDirection());
+                                //TODO Fix Point bug. Not showing up on client computer.
+                                output.println(gameFrame.getBumperY() + "_" + reflectionX + "_" + gameFrame.getBallY() + "_" + gameFrame.getDirection()+ "_" + gameFrame.getMyScore() + "_" + gameFrame.getEnemyScore());
                             }
 
                         }

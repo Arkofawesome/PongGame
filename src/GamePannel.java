@@ -63,6 +63,16 @@ public class GamePannel extends JPanel implements ActionListener {
     public String getDir(){
         return direction;
     }
+    public void setScore(int myScore, int enemyScore){
+        left_Score = myScore;
+        right_Score = enemyScore;
+    }
+    public int getMyScore(){
+        return left_Score;
+    }
+    public int getEnemyScore(){
+        return  right_Score;
+    }
     public int getBall_X(){
         return ball_X;
     }

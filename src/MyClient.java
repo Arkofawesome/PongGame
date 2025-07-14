@@ -21,7 +21,7 @@ public class MyClient {
                 writer.println(gameFrame.getBumperY());
                 //Changing the Line into a readable int string
                 //The format of the string is this:
-                // CursorY_ballX_ballY_Direction
+                // CursorY_ballX_ballY_Direction_serverScore_clientScore
                 String line = reader.readLine();
                 System.out.println(line);
                 gameFrame.setEnemyBumperY(Integer.parseInt(line.substring(0,line.indexOf('_'))));
@@ -30,7 +30,11 @@ public class MyClient {
                 line = line.substring(line.indexOf('_') + 1);
                 gameFrame.setBall_Y(Integer.parseInt(line.substring(0,line.indexOf('_'))));
                 line = line.substring(line.indexOf('_') + 1);
-                gameFrame.setDirection(line.substring(0,2));
+                gameFrame.setDirection(line.substring(0,line.indexOf('_')));
+                line = line.substring(line.indexOf('_') + 1);
+                gameFrame.setScore(Integer.parseInt(line.substring(line.indexOf('_')+1)), Integer.parseInt(line.substring(0,line.indexOf('_'))));
+                line = line.substring(line.indexOf('_') + 1);
+//                gameFrame.setDirection(line.substring(0,2));
 
 //                System.out.println(reader.readLine());
 //                System.out.println("Sending y at: " +gameFrame.getBumperY());

@@ -17,6 +17,15 @@ public class GameFrame extends JFrame {
     public void setDirection(String direction){
         gamePannel.setDir(direction);
     }
+    public int getMyScore(){
+        return gamePannel.getMyScore();
+    }
+    public int getEnemyScore(){
+        return gamePannel.getEnemyScore();
+    }
+    public void setScore(int myScore, int enemyScore) {
+        gamePannel.setScore(myScore, enemyScore);
+    }
     public void setBall_X(int ball_X){
         gamePannel.setBall_X(ball_X);
     }
