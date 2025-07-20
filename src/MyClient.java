@@ -7,11 +7,11 @@ public class MyClient {
         GameFrame gameFrame = new GameFrame();
         gameFrame.setServer(false);
         //If you're trying on the same game
-        try (var socket = new Socket("localhost", portNumber);
+//        try (Socket socket = new Socket("localhost", portNumber);
         //If you're accessing remotely
-//        try (var socket = new Socket("10.0.0.45", portNumber);
-             var writer = new PrintWriter(socket.getOutputStream(), true);
-             var reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))){
+        try (Socket socket = new Socket("10.0.0.45", portNumber);
+             PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
+             BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream()))){
             System.out.println("Socket created");
 //            for (String userInput; !(userInput = scanner.nextLine()).isEmpty();){
 //                writer.println(userInput);
