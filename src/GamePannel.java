@@ -12,6 +12,8 @@ public class GamePannel extends JPanel implements ActionListener {
     final int BALL_HEIGHT = 15;
     final int BALL_WIDTH = 15;
     final int DELAY = 15;
+    int dy = 8;
+    int dx = 8;
     int ball_X;
     int ball_Y;
     int my_Bumper_Y = SCREEN_HEIGHT / 2 - BUMPER_HEIGHT/2;
@@ -88,43 +90,45 @@ public class GamePannel extends JPanel implements ActionListener {
     public void setBall_Y(int ball_Y){
         this.ball_Y = ball_Y;
     }
+
     public void randomStart(){
         if(isServer){
             ball_X = SCREEN_WIDTH/2 - BALL_WIDTH/2;
             ball_Y = random.nextInt(SCREEN_HEIGHT - BALL_HEIGHT);
             switch(random.nextInt(4)){
                 case 1:
-                    direction = "UL";
+                    dy = 8;
+                    dx = -8;
                     break;
                 case 2:
-                    direction = "BL";
+                    dy = -8;
+                    dx = -8;
                     break;
                 case 3:
-                    direction = "UR";
+                    dy = 8;
+                    dx = 8;
                     break;
                 case 4:
-                    direction = "BR";
+                    dy = -8;
+                    dx = 8;
                     break;
                 default:
-                    direction = "UL";
+                    dy = 8;
+                    dx = -8;
                     break;
             }
         }
-        else{
-
-        }
-
 
     }
     public void moveBall(){
         if(isServer){
-            if(ball_X <= 0){//off the left side screen
+            if(ball_X <= -(BALL_WIDTH)){//off the left side screen
                 right_Score++;
                 randomStart();
             }
-            else if (ball_X >= SCREEN_WIDTH - BALL_WIDTH){//off the left side screen
+            else if (ball_X >= SCREEN_WIDTH){//off the left side screen
                 left_Score++;
-                randomStart();;
+                randomStart();
             }
             else {//in play
                 if(ball_Y < 0 || ball_Y + BALL_HEIGHT > SCREEN_WIDTH) {// If the ball is colliding
@@ -132,64 +136,129 @@ public class GamePannel extends JPanel implements ActionListener {
                 }
                 //Basically if the ball touched a bumper
                 else if(new Rectangle(0,my_Bumper_Y, BUMPER_WIDTH,BUMPER_HEIGHT).intersects(ball_X,ball_Y,BALL_WIDTH,BALL_HEIGHT)
-                        || new Rectangle(SCREEN_WIDTH - BUMPER_WIDTH,enemy_Bumper_Y, BUMPER_WIDTH,BUMPER_HEIGHT).intersects(ball_X,ball_Y,BALL_WIDTH,BALL_HEIGHT)){
+                        || new Rectangle(SCREEN_WIDTH - BUMPER_WIDTH,enemy_Bumper_Y, BUMPER_WIDTH,BUMPER_HEIGHT).intersects(ball_X,ball_Y,BALL_WIDTH,BALL_HEIGHT)
+                        || new Rectangle(0,my_Bumper_Y, BUMPER_WIDTH,BUMPER_HEIGHT).intersects(ball_X + dx,ball_Y +dy,BALL_WIDTH,BALL_HEIGHT)
+                        || new Rectangle(SCREEN_WIDTH - BUMPER_WIDTH,enemy_Bumper_Y, BUMPER_WIDTH,BUMPER_HEIGHT).intersects(ball_X + dx,ball_Y + dy,BALL_WIDTH,BALL_HEIGHT)){
+
                     bumperCollision();
                 }
-                //Move codec
-                switch(direction){
-                    case("UL"):
-                        ball_X -= 8;
-                        ball_Y -= 8;
-                        break;
-                    case("BL"):
-                        ball_X -= 8;
-                        ball_Y += 8;
-                        break;
-                    case("UR"):
-                        ball_X += 8;
-                        ball_Y -= 8;
-                        break;
-                    case("BR"):
-                        ball_X += 8;
-                        ball_Y += 8;
-                        break;
-                }
+                //Move code
+                ball_X += dx;
+                ball_Y += dy;
+//                switch(direction){
+//                    case("UL"):
+//                        ball_X -= 8;
+//                        ball_Y -= 8;
+//                        break;
+//                    case("BL"):
+//                        ball_X -= 8;
+//                        ball_Y += 8;
+//                        break;
+//                    case("UR"):
+//                        ball_X += 8;
+//                        ball_Y -= 8;
+//                        break;
+//                    case("BR"):
+//                        ball_X += 8;
+//                        ball_Y += 8;
+//                        break;
+//                }
             }
+        }
+        else {
+
         }
 
 
     }
     public void bumperCollision(){
-        switch(direction){
-            case("UL"):
-                direction= "BR";
+//        switch(direction){
+//            case("UL"):
+//                direction= "BR";
+//                break;
+//            case("BL"):
+//                direction= "UR";
+//                break;
+//            case("UR"):
+//                direction= "BL";
+//                break;
+//            case("BR"):
+//                direction= "UL";
+//                break;
+//        }
+        switch(random.nextInt(4)){
+            case 1:
+                dy += 2;
+                dx += 2;
                 break;
-            case("BL"):
-                direction= "UR";
+            case 2:
+                dy += 2;
+                dx -=2;
                 break;
-            case("UR"):
-                direction= "BL";
+            case 3:
+                dy -= 2;
+                dx += 2;
                 break;
-            case("BR"):
-                direction= "UL";
+            case 4:
+                dy -= 2;
+                dx -= 2;
+                break;
+            default:
+                dy += 2;
+                dx += 2;
                 break;
         }
+        while (dx == 0) {
+            dx += random.nextInt(-2,2);
+        }
+        while (dy == 0) {
+            dy += random.nextInt(-2,2);
+        }
+
+        if (dx>= 12) {
+            dx-=2;
+        }
+        else if (dx <= -12) {
+            dx += 2;
+        }
+        if (dy >= 10) {
+            dy-=2;
+        }
+        else if (dy <= -10) {
+            dy+= 2;
+        }
+//        if (dy <= 2) {
+//            dy = 8;
+//        }
+//        else if (dy >= 12) {
+//            dy = 8;
+//        }
+//        else if (dx <= 2) {
+//            dx = 8;
+//        }
+//        else if (dx >= 12) {
+//            dx = 8;
+//        }
+//        dy = 2;
+//        dx = 2;
+        dx = -dx;
     }
     public void wallCollision(){
-        switch(direction){
-            case("UL"):
-                direction= "BL";
-                break;
-            case("BL"):
-                direction= "UL";
-                break;
-            case("UR"):
-                direction= "BR";
-                break;
-            case("BR"):
-                direction= "UR";
-                break;
-        }
+//        switch(direction){
+//            case("UL"):
+//                direction= "BL";
+//                break;
+//            case("BL"):
+//                direction= "UL";
+//                break;
+//            case("UR"):
+//                direction= "BR";
+//                break;
+//            case("BR"):
+//                direction= "UR";
+//                break;
+//        }
+        dy = -dy;
 
     }
     public int getBumper_Y(){
